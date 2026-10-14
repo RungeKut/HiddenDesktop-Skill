@@ -46,6 +46,35 @@ foreach ($skills in @(
 $env:HDKIT_HOME = $root
 Write-Host "OK   HDKIT_HOME = $root"
 
+if (Get-Command git -ErrorAction SilentlyContinue) {
+    Push-Location $root
+    git config core.hooksPath tools/hooks
+    $author = git config --local --get user.email
+    Pop-Location
+    Write-Host "OK   core.hooksPath = tools/hooks (проверка текста коммита)"
+    Write-Host "     папку текущего проекта можно добавить к стоп-словам:"
+    Write-Host "     git config hdkit.project '<путь к папке проекта>'"
+    if ($author) {
+        Write-Host "OK   автор коммитов этого клона: $author"
+    } else {
+        Write-Host "НЕТ  автор коммитов не задан — уйдут глобальные (рабочие) имя и адрес."
+        Write-Host "     git config user.name  '<публичное имя>'"
+        Write-Host "     git config user.email '<публичный адрес>'"
+    }
+} else {
+    Write-Host "НЕТ  git не найден — хук commit-msg не включён"
+}
+$stop = Join-Path $root "tools\stoplist.txt"
+if (-not (Test-Path $stop)) {
+    $text = "# Стоп-слова: названия и приметы изделий и закрытых программ этой машины.`r`n" +
+            "# Файл ЛОКАЛЬНЫЙ: он в .gitignore и в репозиторий не попадает.`r`n" +
+            "# Строка = подстрока, регистр не важен; # — комментарий.`r`n"
+    [IO.File]::WriteAllText($stop, $text, (New-Object Text.UTF8Encoding $false))
+    Write-Host "OK   заведён tools\stoplist.txt — впишите изделия до первого коммита"
+} else {
+    Write-Host "OK   tools\stoplist.txt на месте (локальный, в .gitignore)"
+}
+
 $py = $null
 foreach ($c in @(
     "$env:LOCALAPPDATA\Programs\Python\Python313\python.exe",
