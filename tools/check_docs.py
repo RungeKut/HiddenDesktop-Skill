@@ -11,12 +11,18 @@
   * внутренние ссылки ведут на существующие файлы;
   * НИ ОДИН файл набора не упоминает изделие или посторонний проект;
   * на этой машине включён хук commit-msg, который проверяет текст коммита;
-  * для этого клона задан автор коммитов (иначе уходят глобальные — рабочие).
+  * для этого клона задан автор коммитов (иначе уходят глобальные — рабочие);
+  * SKILL.md лежит в корне, name совпадает с SKILL_NAME, description не
+    длиннее 1024 знаков, файл не больше SKILL_MAX_BYTES (≈ 1024 токена).
+
+SKILL.md грузится в контекст агента при каждом срабатывании скилла, поэтому
+его размер ограничен; подробности — в базе, в SKILL.md — ссылки на id.
 
 Стоп-слова — в tools/stoplist.txt. Это ЛОКАЛЬНЫЙ файл: он в .gitignore и в
 репозиторий не попадает — стоп-лист, лежащий в публичном репозитории, сам
 публикует то, что должен скрывать. Поэтому ошибка и отсутствие файла
-(проверять не по чему; его заводит setup.ps1), и его возвращение под git.
+(проверять не по чему; заводится вручную при клонировании), и его
+возвращение под git.
 
 С ключом --project к стоп-словам добавляются слова имени папки
 проекта, в котором набор применялся.
@@ -37,6 +43,11 @@ INDEX = os.path.join(KNOWLEDGE, "INDEX.md")
 
 REQUIRED = ("id", "title", "status")
 VALID_STATUS = ("проверено", "не проверено", "устарело", "действует")
+
+SKILL = os.path.join(ROOT, "SKILL.md")
+SKILL_NAME = "hidden-desktop"
+SKILL_MAX_BYTES = 4096
+DESCRIPTION_MAX = 1024
 
 STOPLIST = os.path.join(ROOT, "tools", "stoplist.txt")
 SKIP = ("tools/stoplist.txt",)
@@ -168,8 +179,32 @@ def project_words(project_dir):
     return out
 
 
+def skill_problems():
+    """Расхождения SKILL.md с правилом «скилл = корень репозитория»."""
+    if not os.path.exists(SKILL):
+        return ["нет SKILL.md в корне набора — агент не увидит скилл"]
+    out = []
+    if os.path.exists(os.path.join(ROOT, "skill")):
+        out.append("папка skill/ осталась от установки junction'ом — удалить")
+    text = read(SKILL)
+    size = len(text.encode("utf-8"))
+    if size > SKILL_MAX_BYTES:
+        out.append("SKILL.md %d байт, предел %d (≈ 1024 токена) — "
+                   "подробности перенести в базу" % (size, SKILL_MAX_BYTES))
+    fm = front_matter(text) or {}
+    if fm.get("name") != SKILL_NAME:
+        out.append("SKILL.md: name %r, нужно %r" % (fm.get("name"), SKILL_NAME))
+    desc = fm.get("description", "")
+    if not desc:
+        out.append("SKILL.md: нет description")
+    elif len(desc) > DESCRIPTION_MAX:
+        out.append("SKILL.md: description %d знаков, предел %d"
+                   % (len(desc), DESCRIPTION_MAX))
+    return out
+
+
 def main(project_dir=None):
-    problems = []
+    problems = skill_problems()
     files = knowledge_files()
     ids = {}
 
@@ -247,8 +282,8 @@ def main(project_dir=None):
     if not os.path.exists(STOPLIST):
         problems.append(
             "нет tools/stoplist.txt — проверять набор не по чему. Файл "
-            "локальный (в .gitignore); заводит его setup.ps1, приметы "
-            "изделий вписываются туда")
+            "локальный (в .gitignore); завести пустым, приметы "
+            "изделий вписываются туда (40-01)")
     if stoplist_tracked():
         problems.append(
             "tools/stoplist.txt снова под git — при push приметы изделий "
@@ -270,8 +305,7 @@ def main(project_dir=None):
     if not hook_enabled():
         problems.append(
             "хук commit-msg не включён на этой машине — текст коммита никто "
-            "не проверяет. Лечится: git config core.hooksPath tools/hooks "
-            "(её же делает setup.ps1)")
+            "не проверяет. Лечится: git config core.hooksPath tools/hooks")
 
     if local_author() is None:
         problems.append(

@@ -5,14 +5,14 @@
 её окна и управляет ими, не перехватывая ни мышь, ни клавиатуру, ни фокус.
 
 ```
-HiddenDesktop-Kit/
-├── skill/SKILL.md          точка входа для ИИ (подключён как скилл hidden-desktop)
+hidden-desktop/             клон лежит прямо в папке скиллов агента
+├── SKILL.md                точка входа для ИИ (скилл hidden-desktop)
 ├── hdkit/                  библиотека Python (только стандартная библиотека)
 │   ├── desktop.py          HiddenDesktop, Window, Process
 │   ├── capture.py          снимок PrintWindow, PNG без Pillow
 │   ├── controls.py         управление сообщениями: текст, кнопки, список, дерево, прокрутка
 │   └── _win.py             объявления WinAPI с 64-битными типами
-├── tools/                  hd.py (запустить-снять-вывести), setup.ps1, check_docs.py
+├── tools/                  hd.py (запустить-снять-вывести), check_docs.py, хук commit-msg
 ├── examples/               notepad_demo.py, tree_and_combo.py
 ├── knowledge/              база знаний (INDEX.md — карта)
 └── tests/                  test_notepad.py, test_tree.py, run_all.py
@@ -27,9 +27,11 @@ HiddenDesktop-Kit/
 
 ## Установка
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools\setup.ps1
+git clone https://github.com/RungeKut/HiddenDesktop-Kit.git "$env:USERPROFILE\.claude\skills\hidden-desktop"
 ```
-Прав администратора не требует. Подробно — `knowledge/40_СРЕДА/40-01`.
+Установщика, переменных окружения и junction нет: репозиторий и есть папка
+скилла, обновление — `git pull`. Настройка клона (хук, автор, стоп-лист) —
+`knowledge/40_СРЕДА/40-01`.
 
 ## Пример
 ```python
@@ -57,8 +59,8 @@ push`. Без права записи правка уходит pull request'о�
 владелец разбирает открытые PR при каждом pull (`gh pr list`). Порядок —
 `knowledge/40_СРЕДА/40-02`. **В набор не попадает ничего о рабочих
 проектах** — ни в файлы, ни в текст коммита, ни снимки окон их программ.
-Приметы — в `tools/stoplist.txt`: он локальный (`.gitignore`), его заводит
-`setup.ps1`. Автор коммитов задаётся для клона публичным именем.
+Приметы — в `tools/stoplist.txt`: он локальный (`.gitignore`), заводится
+при клонировании. Автор коммитов задаётся для клона публичным именем.
 
 ## Лицензия
 MIT.

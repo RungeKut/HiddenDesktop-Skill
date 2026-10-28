@@ -14,7 +14,7 @@ PrintWindow, управление — оконными сообщениями.
         controls.set_text(edit, "привет")
         w.capture().save("shot.png")
 
-Подробно — knowledge/INDEX.md и skill/SKILL.md.
+Подробно — SKILL.md и knowledge/INDEX.md.
 """
 __version__ = "0.1.0"
 

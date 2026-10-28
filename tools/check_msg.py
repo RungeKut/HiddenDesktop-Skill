@@ -4,8 +4,8 @@
 Вторая половина правила из knowledge/40_СРЕДА/40-02: check_docs.py сверяет
 файлы набора, а сообщение коммита не видит ни один из них.
 
-Запускается хуком tools/hooks/commit-msg, который включает setup.ps1
-(git config core.hooksPath tools/hooks). Вручную:
+Запускается хуком tools/hooks/commit-msg; включается один раз на клон:
+git config core.hooksPath tools/hooks. Вручную:
 
     python tools/check_msg.py .git/COMMIT_EDITMSG
 
