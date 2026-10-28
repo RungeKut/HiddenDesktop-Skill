@@ -1,4 +1,4 @@
-# HiddenDesktop-Kit
+# HiddenDesktop-Skill
 
 Работа с оконными программами Windows на **скрытом рабочем столе**: человек
 продолжает работать, а ИИ (или скрипт) запускает программу невидимо, снимает
@@ -12,7 +12,7 @@ hidden-desktop/             клон лежит прямо в папке ски�
 │   ├── capture.py          снимок PrintWindow, PNG без Pillow
 │   ├── controls.py         управление сообщениями: текст, кнопки, список, дерево, прокрутка
 │   └── _win.py             объявления WinAPI с 64-битными типами
-├── tools/                  hd.py (запустить-снять-вывести), check_docs.py, хук commit-msg
+├── tools/                  hd.py (запустить-снять-вывести), check_docs.py (обёртка skill-skill)
 ├── examples/               notepad_demo.py, tree_and_combo.py
 ├── knowledge/              база знаний (INDEX.md — карта)
 └── tests/                  test_notepad.py, test_tree.py, run_all.py
@@ -27,11 +27,12 @@ hidden-desktop/             клон лежит прямо в папке ски�
 
 ## Установка
 ```bash
-git clone https://github.com/RungeKut/HiddenDesktop-Kit.git "<папка скиллов агента>/hidden-desktop"
+git clone https://github.com/RungeKut/HiddenDesktop-Skill.git "<папка скиллов агента>/hidden-desktop"
 ```
 Установщика, переменных окружения и junction нет: репозиторий и есть папка
-скилла, обновление — `git pull`. Настройка клона (хук, автор, стоп-лист) —
-`knowledge/40_СРЕДА/40-01`.
+скилла, обновление — `git pull`. Рядом нужен скилл skill-skill
+(`https://github.com/RungeKut/Skill-Skill`): общие правила, проверки и хук.
+Настройка клона — `knowledge/40_СРЕДА/40-01`.
 
 ## Пример
 ```python
@@ -53,14 +54,13 @@ Windows 10 Pro 10.0.19045, Python 3.13 64-bit. Не проверено: GPU-ок
 
 ## Работа с нескольких машин
 
-В начале — `git pull --rebase`; после каждой правки набора — `git diff`,
-`python tools/check_docs.py --project "<папка проекта>"`, коммит, `git
-push`. Без права записи правка уходит pull request'ом из своего форка;
-владелец разбирает открытые PR при каждом pull (`gh pr list`). Порядок —
-`knowledge/40_СРЕДА/40-02`. **В набор не попадает ничего о рабочих
-проектах** — ни в файлы, ни в текст коммита, ни снимки окон их программ.
-Приметы — в `tools/stoplist.txt`: он локальный (`.gitignore`), заводится
-при клонировании. Автор коммитов задаётся для клона публичным именем.
+По общим правилам skill-skill (`knowledge/40_СРЕДА/40-02` там): в начале —
+`git pull --rebase`; после каждой правки — `git diff`, `python
+tools/check_docs.py --project "<папка проекта>"`, коммит, `git push` сразу.
+Без права записи — pull request из своего форка; сливает владелец. **В
+набор не попадает ничего о рабочих проектах** — ни в файлы, ни в текст
+коммита, ни снимки окон их программ (`knowledge/40_СРЕДА/40-02`). Автор
+коммитов задаётся для клона публичным именем, без соавторов.
 
 ## Лицензия
 MIT.

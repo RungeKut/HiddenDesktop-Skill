@@ -6,11 +6,12 @@ description: "Оконные программы Windows на СКРЫТОМ ра
 # Скрытый рабочий стол
 
 Корень набора — папка, из которой прочитан этот файл (клон
-`RungeKut/HiddenDesktop-Kit`); соседние скиллы — рядом с ней. Библиотека `hdkit`, утилита
-`tools/hd.py`, база `knowledge/` (карта и поиск по симптому — `INDEX.md`).
+`RungeKut/HiddenDesktop-Skill`); соседние скиллы — рядом с ней. Библиотека
+`hdkit`, утилита `tools/hd.py`, база `knowledge/` (карта и поиск по симптому
+— `INDEX.md`). Общие правила — соседний скилл skill-skill.
 
-**Первым делом:** `git -C <корень> pull --rebase`; владельцу — ещё
-`gh pr list` (40-02).
+**Первым делом:** `git -C <корень> pull --rebase`; конфликт — разобрать до
+работы; владельцу — ещё `gh pr list` (skill-skill, 40-02).
 
 ```python
 import sys; sys.path.insert(0, r"<корень>")
@@ -42,6 +43,7 @@ with HiddenDesktop() as d:
 ## Правка набора
 
 Нашли грабли — запись по `knowledge/00_ПРАВИЛА.md`, строки в `INDEX.md` и
-`CHANGELOG.md`, `python tools/check_docs.py --project "<папка проекта>"`,
-`git diff`, коммит, push. В набор — ничего о рабочих проектах: ни названий,
-ни путей, ни снимков их окон (40-02).
+`CHANGELOG.md`, `git diff`, `python tools/check_docs.py --project "<папка
+проекта>"`, коммит, push сразу. В набор — ничего о рабочих проектах: ни
+названий, ни путей, ни снимков их окон (40-02). Коммит — без соавторов,
+автор задан для клона (skill-skill).

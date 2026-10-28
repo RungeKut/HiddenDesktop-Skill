@@ -4,7 +4,7 @@ title: PrintWindow с PW_RENDERFULLCONTENT снимает окно скрыто�
 tags: [PrintWindow, снимок, PNG, DIB, пустой снимок]
 applies_to: Windows 10 Pro 10.0.19045, Python 3.13 64-bit
 status: проверено
-verified: 2026-10-14 — снимки Блокнота, msinfo32 и (в VisualState-Kit) Designer; GPU-окна НЕ проверялись
+verified: 2026-10-14 — снимки Блокнота, msinfo32 и (в VisualState-Skill) Designer; GPU-окна НЕ проверялись
 source: эксперимент
 ---
 

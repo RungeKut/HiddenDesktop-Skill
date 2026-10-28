@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Дерево: найти узел по пути, выделить, раскрыть двойным кликом
 (PostMessage), прочитать состояние. Выпадающий список — в
-combo_items/combo_select (пример в vskit/shot.py набора VisualState-Kit)."""
+combo_items/combo_select (пример в vskit/shot.py набора VisualState-Skill)."""
 import os
 import sys
 import time

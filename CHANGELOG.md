@@ -2,6 +2,18 @@
 
 Формат строки: дата — что изменилось — почему.
 
+## 2026-10-28 — HiddenDesktop-Skill 0.3.0: общие правила в skill-skill
+
+* Репозиторий переименован: HiddenDesktop-Kit → HiddenDesktop-Skill
+  (`https://github.com/RungeKut/HiddenDesktop-Skill.git`), ветка
+  `master` → `main`. Старое имя осталось только в записях ниже.
+* Общие правила, проверки и хук — в соседнем скилле skill-skill:
+  `tools/check_docs.py` стал обёрткой общей проверки (она добавила историю
+  коммитов, ветку, origin), свои `check_msg.py` и `tools/hooks/` удалены —
+  `core.hooksPath ../skill-skill/hooks`. Своих особых проверок у набора нет.
+* `00_ПРАВИЛА.md`, 40-01, 40-02 сокращены до ссылок на skill-skill и
+  особенностей набора; push — сразу после правки; коммиты без соавторов.
+
 ## 2026-10-28 — HiddenDesktop-Kit 0.2.0: скилл — корень репозитория
 
 * `skill/SKILL.md` → `SKILL.md` в корне; клон кладётся прямо в
