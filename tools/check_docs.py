@@ -13,7 +13,8 @@
   * на этой машине включён хук commit-msg, который проверяет текст коммита;
   * для этого клона задан автор коммитов (иначе уходят глобальные — рабочие);
   * SKILL.md лежит в корне, name совпадает с SKILL_NAME, description не
-    длиннее 1024 знаков, файл не больше SKILL_MAX_BYTES (≈ 1024 токена).
+    длиннее 1024 знаков, файл не больше SKILL_MAX_BYTES (≈ 1024 токена);
+  * в SKILL.md и коде нет путей конкретного агента (~/.claude, ~/.kimi-code).
 
 SKILL.md грузится в контекст агента при каждом срабатывании скилла, поэтому
 его размер ограничен; подробности — в базе, в SKILL.md — ссылки на id.
@@ -48,6 +49,7 @@ SKILL = os.path.join(ROOT, "SKILL.md")
 SKILL_NAME = "hidden-desktop"
 SKILL_MAX_BYTES = 4096
 DESCRIPTION_MAX = 1024
+AGENT_PATHS = (".claude/", ".claude\\", ".kimi-code")
 
 STOPLIST = os.path.join(ROOT, "tools", "stoplist.txt")
 SKIP = ("tools/stoplist.txt",)
@@ -200,6 +202,13 @@ def skill_problems():
     elif len(desc) > DESCRIPTION_MAX:
         out.append("SKILL.md: description %d знаков, предел %d"
                    % (len(desc), DESCRIPTION_MAX))
+    for path in [SKILL] + [p for p in repo_files() if p.endswith(".py")]:
+        low = read(path).lower()
+        for frag in AGENT_PATHS:
+            if frag in low and path != os.path.abspath(__file__):
+                out.append("%s: путь конкретного агента %r — набор копируют "
+                           "к разным ИИ, корень = папка SKILL.md"
+                           % (os.path.relpath(path, ROOT), frag))
     return out
 
 

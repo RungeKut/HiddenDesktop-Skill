@@ -26,8 +26,8 @@ hidden-desktop/             клон лежит прямо в папке ски�
 `PostMessage`).
 
 ## Установка
-```powershell
-git clone https://github.com/RungeKut/HiddenDesktop-Kit.git "$env:USERPROFILE\.claude\skills\hidden-desktop"
+```bash
+git clone https://github.com/RungeKut/HiddenDesktop-Kit.git "<папка скиллов агента>/hidden-desktop"
 ```
 Установщика, переменных окружения и junction нет: репозиторий и есть папка
 скилла, обновление — `git pull`. Настройка клона (хук, автор, стоп-лист) —

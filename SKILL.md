@@ -5,8 +5,8 @@ description: "Оконные программы Windows на СКРЫТОМ ра
 
 # Скрытый рабочий стол
 
-Корень набора — папка этого файла: клон `RungeKut/HiddenDesktop-Kit` в
-`~/.claude/skills/hidden-desktop`. Библиотека `hdkit`, утилита
+Корень набора — папка, из которой прочитан этот файл (клон
+`RungeKut/HiddenDesktop-Kit`); соседние скиллы — рядом с ней. Библиотека `hdkit`, утилита
 `tools/hd.py`, база `knowledge/` (карта и поиск по симптому — `INDEX.md`).
 
 **Первым делом:** `git -C <корень> pull --rebase`; владельцу — ещё
